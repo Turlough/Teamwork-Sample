@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Spinner;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.turlough.teamworksample.R;
@@ -25,7 +25,7 @@ import rx.schedulers.Schedulers;
 public class ProjectsActivity extends AppCompatActivity {
 
     TextView tvStatus;
-    Spinner projectsSpinner;
+    ListView projectsSpinner;
     ProjectAdapter dataAdapter;
 
     String key;
@@ -47,8 +47,8 @@ public class ProjectsActivity extends AppCompatActivity {
         key = getString(R.string.api_key);
         url = getString(R.string.api_url);
 
-        tvStatus = (TextView) findViewById(R.id.tvMessage);
-        projectsSpinner = (Spinner) findViewById(R.id.projects_spinner);
+        tvStatus = (TextView) findViewById(R.id.tvStatus);
+        projectsSpinner = (ListView) findViewById(R.id.projects_spinner);
 
         dataAdapter = new ProjectAdapter(this, new ArrayList<Project>());
         dataAdapter.setDropDownViewResource(R.layout.project_spinner_item);
