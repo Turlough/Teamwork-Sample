@@ -1,4 +1,4 @@
-package com.example.turlough.teamworksample.activity;
+package com.example.turlough.teamworksample.ui.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -336,7 +336,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
-                Intent i = new Intent(LoginActivity.this, TeamworkActivity.class);
+                Intent i = new Intent(LoginActivity.this, ProjectsActivity.class);
                 startActivity(i);
 
             } else {

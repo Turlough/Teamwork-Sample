@@ -14,16 +14,19 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".activity.LoginActivity"
+
+        <activity android:name=".ui.activity.ProjectsActivity">
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.TeamworkActivity"></activity>
+
+        <activity
+            android:name=".ui.activity.LoginActivity">
+        </activity>
+
     </application>
 
 </manifest>
