@@ -1,7 +1,9 @@
 package com.example.turlough.teamworksample.ui.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -32,6 +34,7 @@ public class ProjectsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teamwork);
 
@@ -44,19 +47,35 @@ public class ProjectsActivity extends AppCompatActivity {
         key = getString(R.string.api_key);
         url = getString(R.string.api_url);
 
-        tvStatus = (TextView)findViewById(R.id.tvMessage);
-        projectsSpinner = (Spinner)findViewById(R.id.projects_spinner);
+        tvStatus = (TextView) findViewById(R.id.tvMessage);
+        projectsSpinner = (Spinner) findViewById(R.id.projects_spinner);
 
-        dataAdapter = new ProjectAdapter(this,  new ArrayList<Project>());
+        dataAdapter = new ProjectAdapter(this, new ArrayList<Project>());
         dataAdapter.setDropDownViewResource(R.layout.project_spinner_item);
         projectsSpinner.setAdapter(dataAdapter);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.refresh_button);
+        fab.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                tvStatus.setText(getString(R.string.please_wait));
+                dataAdapter.clear();
+                dataAdapter.notifyDataSetChanged();
+
+                loadProjects();
+            }
+        });
     }
 
     private void loadProjects() {
 
         Observable<Projects> projectObservable = Observable.fromCallable(new Callable<Projects>() {
+
             @Override
             public Projects call() {
+
                 return new RemoteEntity(key, url).fetchProjects();
             }
         });
@@ -66,22 +85,26 @@ public class ProjectsActivity extends AppCompatActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Projects>() {
 
-            @Override
-            public void onCompleted() { }
+                    @Override
+                    public void onCompleted() {
 
-            @Override
-            public void onError(Throwable e) { }
+                    }
 
-            @Override
-            public void onNext(Projects projects) {
+                    @Override
+                    public void onError(Throwable e) {
 
-                tvStatus.setText(projects.getStatus());
+                    }
 
-                dataAdapter.clear();
-                dataAdapter.addAll(Arrays.asList(projects.getProjects()));
-                dataAdapter.notifyDataSetChanged();
-            }
-        });
+                    @Override
+                    public void onNext(Projects projects) {
+
+                        tvStatus.setText(projects.getStatus());
+
+                        dataAdapter.clear();
+                        dataAdapter.addAll(Arrays.asList(projects.getProjects()));
+                        dataAdapter.notifyDataSetChanged();
+                    }
+                });
     }
 
 }
