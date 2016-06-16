@@ -1,8 +1,7 @@
 package com.example.turlough.teamworksample.ui.activity;
 
-import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -14,46 +13,59 @@ import com.example.turlough.teamworksample.ui.adapter.ProjectAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.concurrent.Callable;
+
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class ProjectsActivity extends AppCompatActivity {
 
-    TextView tvMessage;
+    TextView tvStatus;
     Spinner projectsSpinner;
     ProjectAdapter dataAdapter;
-    List<Project> projectArray = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teamwork);
 
-
-        tvMessage = (TextView)findViewById(R.id.tvMessage);
+        tvStatus = (TextView)findViewById(R.id.tvMessage);
         projectsSpinner = (Spinner)findViewById(R.id.projects_spinner);
 
-        dataAdapter = new ProjectAdapter(this,  projectArray);
+        dataAdapter = new ProjectAdapter(this,  new ArrayList<Project>());
         dataAdapter.setDropDownViewResource(R.layout.project_spinner_item);
         projectsSpinner.setAdapter(dataAdapter);
 
-        new FetcherTask().execute((Void) null);
+        Observable<Projects> projectObservable = Observable.fromCallable(new Callable<Projects>() {
+            @Override
+            public Projects call() {
+                return new RemoteEntity().fetchProjects();
+            }
+        });
+        projectObservable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Projects>() {
+
+            @Override
+            public void onCompleted() { }
+
+            @Override
+            public void onError(Throwable e) { }
+
+            @Override
+            public void onNext(Projects projects) {
+
+                tvStatus.setText(projects.getSTATUS());
+
+                dataAdapter.clear();
+                dataAdapter.addAll(Arrays.asList(projects.getProjects()));
+                dataAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
-    class FetcherTask extends AsyncTask<Void, Void, Projects>{
-
-        @Override
-        protected Projects doInBackground(Void... params) {
-            Projects p = new RemoteEntity().fetchProjects();
-            projectArray = Arrays.asList(p.getProjects());
-            return p;
-        }
-
-        @Override
-        protected void onPostExecute(Projects p) {
-            tvMessage.setText(p.getSTATUS());
-            dataAdapter.clear();
-            dataAdapter.addAll(projectArray);
-            dataAdapter.notifyDataSetChanged();
-        }
-    }
 }

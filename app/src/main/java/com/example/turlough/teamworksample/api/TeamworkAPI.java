@@ -1,8 +1,8 @@
 package com.example.turlough.teamworksample.api;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -11,14 +11,13 @@ import java.net.URL;
 
 	public class TeamworkAPI {
 
-	public String get(String endpoint) {
+	public String get(String endpoint) throws IOException {
 		
 		HttpURLConnection connection = null;
 		
 		String APIKey = "wood305tree";
 		String TeamworkURL = "http://turlough.teamwork.com/";
 
-		try {
 			URL url = new URL( TeamworkURL + endpoint );
 	        connection = (HttpURLConnection) url.openConnection();
 	        connection.setRequestMethod("GET");
@@ -30,9 +29,7 @@ import java.net.URL;
 	        InputStream responseStream = connection.getInputStream();
 	        
 			return ( streamToString( responseStream) );
-		} catch(Exception e) {
-			return ( "Error Received:" + e.getMessage() );
-		}
+
 	}
 	
 	public static String streamToString(InputStream in) throws IOException {
