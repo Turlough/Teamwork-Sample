@@ -3,6 +3,8 @@ package com.example.turlough.teamworksample.api;
 import org.junit.Before;
 import org.junit.Test;
 
+import static junit.framework.Assert.assertTrue;
+
 /**
  * Created by turlough on 15/06/16.
  * NB: Depends on external resources
@@ -21,6 +23,7 @@ public class TeamworkAPITest {
     @Test
     public void testGet() throws Exception {
         //exception on failure
-        api.get("projects.json");
+        String s = api.get("projects.json");
+        assertTrue(s.length() > 0);
     }
 }
