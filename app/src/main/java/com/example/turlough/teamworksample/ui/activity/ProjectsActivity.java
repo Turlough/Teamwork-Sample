@@ -3,7 +3,6 @@ package com.example.turlough.teamworksample.ui.activity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -15,7 +14,6 @@ import com.example.turlough.teamworksample.ui.adapter.ProjectAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.concurrent.Callable;
 
 import rx.Observable;
 import rx.Observer;
@@ -55,32 +53,21 @@ public class ProjectsActivity extends AppCompatActivity {
         projectsSpinner.setAdapter(dataAdapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.refresh_button);
-        fab.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(
+                View -> {
+                    tvStatus.setText(getString(R.string.please_wait));
+                    dataAdapter.clear();
+                    dataAdapter.notifyDataSetChanged();
 
-            @Override
-            public void onClick(View view) {
+                    loadProjects();
+                }
 
-                tvStatus.setText(getString(R.string.please_wait));
-                dataAdapter.clear();
-                dataAdapter.notifyDataSetChanged();
-
-                loadProjects();
-            }
-        });
+        );
     }
 
     private void loadProjects() {
 
-        Observable<Projects> projectObservable = Observable.fromCallable(new Callable<Projects>() {
-
-            @Override
-            public Projects call() {
-
-                return new RemoteEntity(key, url).fetchProjects();
-            }
-        });
-
-        projectObservable
+        Observable.fromCallable(() -> new RemoteEntity(key, url).fetchProjects())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Projects>() {
