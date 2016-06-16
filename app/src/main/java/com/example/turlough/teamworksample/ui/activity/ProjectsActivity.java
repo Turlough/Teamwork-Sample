@@ -26,11 +26,23 @@ public class ProjectsActivity extends AppCompatActivity {
     Spinner projectsSpinner;
     ProjectAdapter dataAdapter;
 
+    String key;
+    String url;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teamwork);
+
+        init();
+        loadProjects();
+    }
+
+    private void init() {
+
+        key = getString(R.string.api_key);
+        url = getString(R.string.api_url);
 
         tvStatus = (TextView)findViewById(R.id.tvMessage);
         projectsSpinner = (Spinner)findViewById(R.id.projects_spinner);
@@ -38,13 +50,17 @@ public class ProjectsActivity extends AppCompatActivity {
         dataAdapter = new ProjectAdapter(this,  new ArrayList<Project>());
         dataAdapter.setDropDownViewResource(R.layout.project_spinner_item);
         projectsSpinner.setAdapter(dataAdapter);
+    }
+
+    private void loadProjects() {
 
         Observable<Projects> projectObservable = Observable.fromCallable(new Callable<Projects>() {
             @Override
             public Projects call() {
-                return new RemoteEntity().fetchProjects();
+                return new RemoteEntity(key, url).fetchProjects();
             }
         });
+
         projectObservable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -59,7 +75,7 @@ public class ProjectsActivity extends AppCompatActivity {
             @Override
             public void onNext(Projects projects) {
 
-                tvStatus.setText(projects.getSTATUS());
+                tvStatus.setText(projects.getStatus());
 
                 dataAdapter.clear();
                 dataAdapter.addAll(Arrays.asList(projects.getProjects()));

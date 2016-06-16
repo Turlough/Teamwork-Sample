@@ -11,11 +11,13 @@ import static org.junit.Assert.*;
  */
 public class TeamworkAPITest {
 
+    String key = "wood305tree";
+    String url = "http://turlough.teamwork.com/";
     TeamworkAPI api;
 
     @Before
     public void setUp(){
-        api = new TeamworkAPI();
+        api = new TeamworkAPI(key, url);
     }
 
     @Test

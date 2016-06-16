@@ -8,36 +8,40 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 
+public class TeamworkAPI {
+    String key, baseEndpoint;
 
-	public class TeamworkAPI {
+    public TeamworkAPI(String key, String baseEndpoint) {
 
-	public String get(String endpoint) throws IOException {
-		
-		HttpURLConnection connection = null;
-		
-		String APIKey = "wood305tree";
-		String TeamworkURL = "http://turlough.teamwork.com/";
+        this.key = key;
+        this.baseEndpoint = baseEndpoint;
+    }
 
-			URL url = new URL( TeamworkURL + endpoint );
-	        connection = (HttpURLConnection) url.openConnection();
-	        connection.setRequestMethod("GET");
-	        
-	        String userpassword = APIKey + ":" + "";
-	        String encodedAuthorization = Base64Coder.encodeString( userpassword );
-	        connection.setRequestProperty("Authorization", "Basic "+ encodedAuthorization);
-	        
-	        InputStream responseStream = connection.getInputStream();
-	        
-			return ( streamToString( responseStream) );
+    public String get(String endpoint) throws IOException {
 
-	}
-	
-	public static String streamToString(InputStream in) throws IOException {
-		StringBuilder out = new StringBuilder();
-		BufferedReader br = new BufferedReader(new InputStreamReader(in));
-		for(String line = br.readLine(); line != null; line = br.readLine()) 
-		out.append(line);
-		br.close();
-		return out.toString();
-	}
+        HttpURLConnection connection = null;
+
+        URL url = new URL(baseEndpoint + endpoint);
+        connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+
+        String userpassword = key + ":" + "";
+        String encodedAuthorization = Base64Coder.encodeString(userpassword);
+        connection.setRequestProperty("Authorization", "Basic " + encodedAuthorization);
+
+        InputStream responseStream = connection.getInputStream();
+
+        return (streamToString(responseStream));
+
+    }
+
+    public static String streamToString(InputStream in) throws IOException {
+
+        StringBuilder out = new StringBuilder();
+        BufferedReader br = new BufferedReader(new InputStreamReader(in));
+        for (String line = br.readLine(); line != null; line = br.readLine())
+            out.append(line);
+        br.close();
+        return out.toString();
+    }
 }

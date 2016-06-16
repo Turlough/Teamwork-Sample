@@ -13,4 +13,6 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="api_key">wood305tree</string>
+    <string name="api_url">http://turlough.teamwork.com/</string>
 </resources>

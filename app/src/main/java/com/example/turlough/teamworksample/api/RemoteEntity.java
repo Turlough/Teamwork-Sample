@@ -12,21 +12,23 @@ import java.io.IOException;
  */
 public class RemoteEntity {
 
-    TeamworkAPI api = new TeamworkAPI();
+    TeamworkAPI api;
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    public Projects fetchProjects(){
+    public RemoteEntity(String key, String url) {
+        api = new TeamworkAPI(key, url);
+    }
 
-        String s = null;
+    public Projects fetchProjects(){
         try {
 
-            s = api.get("projects.json");
+            String s = api.get("projects.json");
             return gson.fromJson(s, Projects.class);
 
         } catch (final IOException e) {
             e.printStackTrace();
             return new Projects(){{
-                setSTATUS("Error: " + e.getMessage());
+                setStatus("Error: " + e.getMessage());
                 setProjects(new Project[]{});
             }};
         }

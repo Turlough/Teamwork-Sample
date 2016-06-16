@@ -1,5 +1,7 @@
 package com.example.turlough.teamworksample.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +11,8 @@ import lombok.Setter;
 public class Projects {
 
     @Getter @Setter
-    String STATUS;
+    @SerializedName("STATUS")
+    String status;
 
     @Getter @Setter
     Project[] projects;
