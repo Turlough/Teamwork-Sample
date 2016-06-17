@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.turlough.teamworksample.R;
 import com.example.turlough.teamworksample.api.RemoteEntity;
@@ -20,7 +21,7 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class ProjectsActivity extends AppCompatActivity {
+public class ProjectsActivity extends AppCompatActivity implements ProjectButtonListener {
 
     private TextView tvStatus;
     private ListView projectsSpinner;
@@ -49,7 +50,7 @@ public class ProjectsActivity extends AppCompatActivity {
         tvStatus = (TextView) findViewById(R.id.tvStatus);
         projectsSpinner = (ListView) findViewById(R.id.projects_spinner);
 
-        dataAdapter = new ProjectAdapter(this, new ArrayList<>());
+        dataAdapter = new ProjectAdapter(this, new ArrayList<>(), this);
         dataAdapter.setDropDownViewResource(R.layout.project_spinner_item);
         projectsSpinner.setAdapter(dataAdapter);
 
@@ -101,4 +102,18 @@ public class ProjectsActivity extends AppCompatActivity {
                 });
     }
 
+    @Override
+    public void onTasksClicked(int projectId) {
+
+        toast("Tasks for project " + projectId);
+    }
+
+    @Override
+    public void onMessagesClicked(int projectId) {
+
+        toast("Messages for project " + projectId);
+    }
+    void toast(String message){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
 }

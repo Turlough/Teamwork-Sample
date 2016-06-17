@@ -1,59 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                              xmlns:app="http://schemas.android.com/apk/res-auto"
                                              xmlns:tools="http://schemas.android.com/tools"
                                              android:layout_width="match_parent"
                                              android:layout_height="match_parent"
-                                             android:orientation="vertical"
-                                             tools:context=".ui.activity.ProjectsActivity"
-                                             android:id="@+id/constraintLayout">
+                                             tools:context=".ui.activity.ProjectsActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <fragment
+        android:id="@+id/projectsFragment"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/status"
-        android:id="@+id/status_label"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        app:layout_constraintLeft_toLeftOf="@+id/constraintLayout"
-        android:layout_marginStart="16dp"
-        app:layout_constraintTop_toTopOf="@+id/constraintLayout"
-        android:layout_marginTop="16dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/please_wait"
-        android:id="@+id/tvStatus"
-        app:layout_constraintLeft_toRightOf="@+id/status_label"
-        android:layout_marginStart="48dp"
-        app:layout_constraintTop_toTopOf="@+id/constraintLayout"
-        android:layout_marginTop="16dp"/>
-
-    <ListView
-
-        android:id="@+id/projects_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="@+id/constraintLayout"
-        android:layout_marginStart="16dp"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintTop_toBottomOf="@+id/status_label"
-        app:layout_constraintRight_toRightOf="@+id/constraintLayout"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintVertical_bias="0.0"/>
+        class="com.example.turlough.teamworksample.ui.fragment.ProjectsFragment"
+        tools:layout="@layout/fragment_projects"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/refresh_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_refresh_white_24dp"
-        app:layout_constraintRight_toRightOf="@+id/constraintLayout"
-        android:layout_marginEnd="24dp"
-        tools:layout_constraintRight_creator="1"
-        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
-        android:layout_marginBottom="32dp"
-        tools:layout_constraintBottom_creator="1"/>
-</android.support.constraint.ConstraintLayout>
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/refresh_button_margin"
+        android:src="@drawable/ic_refresh_white_24dp" />
+</RelativeLayout>
