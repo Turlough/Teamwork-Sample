@@ -35,7 +35,7 @@ public class ProjectsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_teamwork);
+        setContentView(R.layout.activity_projects);
 
         init();
         loadProjects();

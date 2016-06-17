@@ -35,4 +35,5 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.2.0'
     provided 'org.projectlombok:lombok:1.12.6'
     compile 'org.jetbrains:annotations:15.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha1'
 }
