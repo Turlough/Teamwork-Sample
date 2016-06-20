@@ -1,6 +1,7 @@
 package com.example.turlough.teamworksample.ui.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.turlough.teamworksample.R;
 import com.example.turlough.teamworksample.api.RemoteEntity;
+import com.example.turlough.teamworksample.entity.Project;
 import com.example.turlough.teamworksample.entity.Projects;
 import com.example.turlough.teamworksample.ui.adapter.ProjectAdapter;
 
@@ -105,15 +107,25 @@ public class ProjectsActivity extends AppCompatActivity implements ProjectButton
     @Override
     public void onTasksClicked(int projectId) {
 
-        toast("Tasks for project " + projectId);
+        Intent intent = new Intent(this, TasksActivity.class);
+        Bundle b = new Bundle();
+        b.putInt(Project.PROJECT_ID_EXTRA, projectId);
+        intent.putExtras(b);
+        startActivity(intent);
     }
 
     @Override
     public void onMessagesClicked(int projectId) {
 
-        toast("Messages for project " + projectId);
+        Intent intent = new Intent(this, MessagesActivity.class);
+        Bundle b = new Bundle();
+        b.putInt(Project.PROJECT_ID_EXTRA, projectId);
+        intent.putExtras(b);
+        startActivity(intent);
     }
     void toast(String message){
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
+
+
 }

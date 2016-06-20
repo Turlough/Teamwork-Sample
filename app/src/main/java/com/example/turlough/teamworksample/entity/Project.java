@@ -6,6 +6,7 @@ package com.example.turlough.teamworksample.entity;
 
 public class Project {
 
+    public final static String PROJECT_ID_EXTRA = "PROJECT_ID";
 
     private int id;
     private Company company;
