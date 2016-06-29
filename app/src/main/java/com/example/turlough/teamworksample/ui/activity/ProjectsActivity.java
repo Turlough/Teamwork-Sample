@@ -3,6 +3,7 @@ package com.example.turlough.teamworksample.ui.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
@@ -93,7 +94,7 @@ public class ProjectsActivity extends AppCompatActivity implements ProjectButton
                     }
 
                     @Override
-                    public void onNext(Projects projects) {
+                    public void onNext(@NonNull Projects projects) {
 
                         tvStatus.setText(projects.getStatus());
 

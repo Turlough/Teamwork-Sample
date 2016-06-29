@@ -1,5 +1,9 @@
 package com.example.turlough.teamworksample.entity;
 
+import android.support.annotation.NonNull;
+
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Created by turlough on 15/06/16.
  */
@@ -8,47 +12,54 @@ public class Project {
 
     public final static String PROJECT_ID_EXTRA = "PROJECT_ID";
 
-    private int id;
-    private Company company;
-    private String name;
-    private String description;
+    private int id = 0;
+    @NonNull
+    private Company company = new Company();
+    @NonNull
+    private String name = "";
+    @NonNull
+    private String description = "";
 
+    @NotNull
     public int getId() {
 
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(@NotNull int id) {
 
         this.id = id;
     }
 
+    @NotNull
     public Company getCompany() {
 
         return company;
     }
 
-    public void setCompany(Company company) {
+    public void setCompany(@NotNull Company company) {
 
         this.company = company;
     }
 
+    @NotNull
     public String getName() {
 
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@NotNull String name) {
 
         this.name = name;
     }
 
+    @NotNull
     public String getDescription() {
 
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(@NotNull String description) {
 
         this.description = description;
     }

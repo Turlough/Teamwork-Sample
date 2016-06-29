@@ -1,5 +1,7 @@
 package com.example.turlough.teamworksample.api;
 
+import android.support.annotation.NonNull;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,8 +13,10 @@ import static junit.framework.Assert.assertTrue;
  */
 public class TeamworkAPITest {
 
-    String key = "wood305tree";
-    String url = "http://turlough.teamwork.com/";
+    @NonNull
+    private String key = "wood305tree";
+    @NonNull
+    private String url = "http://turlough.teamwork.com/";
     TeamworkAPI api;
 
     @Before
@@ -22,8 +26,9 @@ public class TeamworkAPITest {
 
     @Test
     public void testGet() throws Exception {
-        //exception on failure
+
         String s = api.get("projects.json");
         assertTrue(s.length() > 0);
     }
+
 }

@@ -1,6 +1,10 @@
 package com.example.turlough.teamworksample.entity;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
@@ -9,26 +13,30 @@ import java.util.Arrays;
  */
 public class Projects {
 
+    @NonNull
     @SerializedName("STATUS")
-    private String status;
-    private Project[] projects;
+    private String status = "";
+    @NonNull
+    private Project[] projects = new Project[]{};
 
+    @NotNull
     public String getStatus() {
 
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(@NotNull String status) {
 
         this.status = status;
     }
 
+    @NotNull
     public Project[] getProjects() {
 
         return projects;
     }
 
-    public void setProjects(Project[] projects) {
+    public void setProjects(@NotNull Project[] projects) {
 
         this.projects = projects;
     }

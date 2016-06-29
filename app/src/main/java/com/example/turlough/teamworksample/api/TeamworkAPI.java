@@ -1,5 +1,9 @@
 package com.example.turlough.teamworksample.api;
 
+import android.support.annotation.NonNull;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,35 +12,44 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import okhttp3.Credentials;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class TeamworkAPI {
+
     String key, baseEndpoint;
+    OkHttpClient client = new OkHttpClient();
+    String authHeader;
 
     public TeamworkAPI(String key, String baseEndpoint) {
 
         this.key = key;
         this.baseEndpoint = baseEndpoint;
+
+        String encoded = Base64Coder.encodeString(key + ":");
+        authHeader = "Basic " + encoded;
     }
 
-    public String get(String endpoint) throws IOException {
+    @NonNull
+    public String get(@NotNull String endpoint) throws IOException {
 
-        HttpURLConnection connection = null;
+        Request request = new Request.Builder()
+                .url(baseEndpoint + endpoint)
+                .addHeader("Authorization", authHeader)
+                .build();
 
-        URL url = new URL(baseEndpoint + endpoint);
-        connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET");
+        return client.newCall(request)
+                .execute()
+                .body()
+                .string();
 
-        String userpassword = key + ":" + "";
-        String encodedAuthorization = Base64Coder.encodeString(userpassword);
-        connection.setRequestProperty("Authorization", "Basic " + encodedAuthorization);
-
-        InputStream responseStream = connection.getInputStream();
-
-        return (streamToString(responseStream));
 
     }
 
-    public void post(String endpoint, String json ) throws IOException {
+    public void post(@NotNull String endpoint, @NonNull String json) throws IOException {
 
         HttpURLConnection connection = null;
 
@@ -55,7 +68,8 @@ public class TeamworkAPI {
         os.flush();
     }
 
-    private String streamToString(InputStream in) throws IOException {
+    @NotNull
+    private String streamToString(@NotNull InputStream in) throws IOException {
 
         StringBuilder out = new StringBuilder();
         BufferedReader br = new BufferedReader(new InputStreamReader(in));
@@ -63,5 +77,25 @@ public class TeamworkAPI {
             out.append(line);
         br.close();
         return out.toString();
+    }
+
+    private class BasicAuthInterceptor implements Interceptor {
+
+        private String credentials;
+
+        public BasicAuthInterceptor(String user, String password) {
+
+            this.credentials = Credentials.basic(user, password);
+        }
+
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+
+            Request request = chain.request();
+            Request authenticatedRequest = request.newBuilder()
+                    .header("Authorization", credentials).build();
+            return chain.proceed(authenticatedRequest);
+        }
+
     }
 }

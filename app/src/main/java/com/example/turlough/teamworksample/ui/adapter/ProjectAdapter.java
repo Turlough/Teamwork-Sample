@@ -1,6 +1,8 @@
 package com.example.turlough.teamworksample.ui.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +23,14 @@ public class ProjectAdapter extends ArrayAdapter<Project> {
 
     ProjectButtonListener projectButtonListener;
 
-    public ProjectAdapter(Context context, List<Project> projects, ProjectButtonListener projectButtonListener) {
+    public ProjectAdapter(Context context, @NonNull List<Project> projects, ProjectButtonListener projectButtonListener) {
         super(context, 0, R.id.tvName, projects);
         this.projectButtonListener = projectButtonListener;
     }
 
+    @Nullable
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, @Nullable View convertView, ViewGroup parent) {
 
         Project project = getItem(position);
 

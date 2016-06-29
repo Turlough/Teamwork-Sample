@@ -1,5 +1,7 @@
 package com.example.turlough.teamworksample.api;
 
+import android.support.annotation.NonNull;
+
 import com.example.turlough.teamworksample.entity.Project;
 import com.example.turlough.teamworksample.entity.Projects;
 import com.example.turlough.teamworksample.entity.TaskResponse;
@@ -19,9 +21,12 @@ import static org.junit.Assert.assertNotNull;
  */
 public class RemoteEntityTest {
 
+    @NonNull
     String key = "wood305tree";
+    @NonNull
     String url = "http://turlough.teamwork.com/";
 
+    @NonNull
     RemoteEntity remote = new RemoteEntity(key, url);
 
     @Test
