@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -35,7 +36,26 @@ public class TeamworkAPI {
 
     }
 
-    public static String streamToString(InputStream in) throws IOException {
+    public void post(String endpoint, String json ) throws IOException {
+
+        HttpURLConnection connection = null;
+
+        URL url = new URL(baseEndpoint + endpoint);
+        connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("POST");
+        connection.setDoOutput(true);
+        connection.setRequestProperty("Content-Type", "application/json");
+
+        String userpassword = key + ":" + "";
+        String encodedAuthorization = Base64Coder.encodeString(userpassword);
+        connection.setRequestProperty("Authorization", "Basic " + encodedAuthorization);
+
+        OutputStream os = connection.getOutputStream();
+        os.write(json.getBytes());
+        os.flush();
+    }
+
+    private String streamToString(InputStream in) throws IOException {
 
         StringBuilder out = new StringBuilder();
         BufferedReader br = new BufferedReader(new InputStreamReader(in));
