@@ -11,20 +11,15 @@ public class Posts {
     @Expose
     private Post post;
 
-    /**
-     * 
-     * @return
-     *     The post
-     */
+    public Posts(Post post) {
+
+        this.post = post;
+    }
+
     public Post getPost() {
         return post;
     }
 
-    /**
-     * 
-     * @param post
-     *     The post
-     */
     public void setPost(Post post) {
         this.post = post;
     }

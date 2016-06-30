@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.turlough.teamworksample.R;
-import com.example.turlough.teamworksample.api.RemoteEntity;
+import com.example.turlough.teamworksample.api.Remote;
 import com.example.turlough.teamworksample.entity.Project;
 import com.example.turlough.teamworksample.entity.Projects;
 import com.example.turlough.teamworksample.ui.adapter.ProjectAdapter;
@@ -78,7 +78,7 @@ public class ProjectsActivity extends AppCompatActivity implements ProjectButton
 
     private void loadProjects() {
 
-        Observable.fromCallable(() -> new RemoteEntity(key, url).fetchProjects())
+        Observable.fromCallable(() -> new Remote(key, url).fetchProjects())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Projects>() {

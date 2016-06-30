@@ -16,26 +16,28 @@ import java.io.IOException;
 /**
  * Created by turlough on 15/06/16.
  */
-public class RemoteEntity {
+public class Remote {
 
     TeamworkAPI api;
     @NonNull
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    public RemoteEntity(String key, String url) {
+    public Remote(String key, String url) {
+
         api = new TeamworkAPI(key, url);
     }
 
     @NotNull
-    public Projects fetchProjects(){
+    public Projects fetchProjects() {
+
         try {
 
             String s = api.get("projects.json");
             return gson.fromJson(s, Projects.class);
 
-        } catch (@NonNull final IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
-            return new Projects(){{
+            return new Projects() {{
                 setStatus("Error: " + e.getMessage());
                 setProjects(new Project[]{});
             }};
@@ -44,7 +46,8 @@ public class RemoteEntity {
     }
 
     @NotNull
-    public TaskResponse fetchTasklists(int projectId){
+    public TaskResponse fetchTasklists(int projectId) {
+
         try {
             String endpoint = String.format("projects/%d/tasklists.json", projectId);
             String s = api.get(endpoint);
@@ -56,13 +59,11 @@ public class RemoteEntity {
         }
     }
 
-    public void sendPosts(int projectId, Posts posts){
-        try {
-            String endpoint = String.format("projects/%d/posts.json", projectId);
-            api.post(endpoint, gson.toJson(posts));
+    public void sendPosts(int projectId, Posts posts) throws IOException {
 
-        } catch (@NonNull final IOException e) {
-            e.printStackTrace();
-        }
+        String endpoint = String.format("projects/%d/posts.json", projectId);
+        api.post(endpoint, gson.toJson(posts));
+
+
     }
 }
