@@ -53,17 +53,16 @@ public class Remote {
             String s = api.get(endpoint);
             return gson.fromJson(s, TaskResponse.class);
 
-        } catch (@NonNull final IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
             return new TaskResponse();
         }
     }
 
-    public void sendPosts(int projectId, Posts posts) throws IOException {
+    public void sendPosts(int projectId, Posts posts) throws IOException, RemoteException {
 
         String endpoint = String.format("projects/%d/posts.json", projectId);
         api.post(endpoint, gson.toJson(posts));
-
 
     }
 }

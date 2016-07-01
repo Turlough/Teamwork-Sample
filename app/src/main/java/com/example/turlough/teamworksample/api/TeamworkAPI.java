@@ -17,9 +17,11 @@ import okhttp3.Request;
 
 public class TeamworkAPI {
 
-    String key, baseEndpoint;
-    OkHttpClient client = new OkHttpClient();
-    String authHeader;
+
+    private static final String TAG = TeamworkAPI.class.getSimpleName();
+    private String key, baseEndpoint;
+    private OkHttpClient client = new OkHttpClient();
+    private String authHeader;
 
     public TeamworkAPI(String key, String baseEndpoint) {
 
@@ -46,7 +48,7 @@ public class TeamworkAPI {
 
     }
 
-    public void post(@NotNull String endpoint, @NonNull String json) throws IOException {
+    public void post(@NotNull String endpoint, @NonNull String json) throws IOException, RemoteException {
 
         HttpURLConnection connection = null;
 
@@ -56,13 +58,25 @@ public class TeamworkAPI {
         connection.setDoOutput(true);
         connection.setRequestProperty("Content-Type", "application/json");
 
-        String userpassword = key + ":" + "";
+        String userpassword = key + ":" + "x";
         String encodedAuthorization = Base64Coder.encodeString(userpassword);
         connection.setRequestProperty("Authorization", "Basic " + encodedAuthorization);
 
         OutputStream os = connection.getOutputStream();
         os.write(json.getBytes());
         os.flush();
+        os.close();
+
+        InputStream is;
+        if (connection.getResponseCode() == 201) {
+            is = connection.getInputStream();
+            System.out.println(streamToString(is) );
+        }
+        else{
+            is = connection.getErrorStream();
+            throw new RemoteException(streamToString(is));
+        }
+
     }
 
     @NotNull

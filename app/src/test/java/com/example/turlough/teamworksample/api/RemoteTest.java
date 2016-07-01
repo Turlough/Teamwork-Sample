@@ -67,7 +67,7 @@ public class RemoteTest {
     }
 
     @Test
-    public void testSendPost() throws IOException {
+    public void testSendPost() throws IOException, RemoteException {
 
         Projects projects = remote.fetchProjects();
         Project project = projects.getProjects()[0];
